@@ -3,5 +3,5 @@
 using HapiJS
 
 task
--[] Buat mockup APi
-- [] Development endpoint api
+- Buat mockup APi
+- Development endpoint api
