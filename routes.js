@@ -7,32 +7,30 @@ const routes = [
 			const response = {
 				status: 'success',
 				message: 'Hello World!',
-                data: {
-                    namaProyek: 'Joba API',
-                    deskripsi: 'Api untuk mobile',
-                    author: 'Team',
-                    dokumentasi: 'link github',
-			}
-			return h.response(response).type('application/json'),
+				data: {
+					namaProyek: 'Joba API',
+					deskripsi: 'Web Service Data untuk Mobile',
+					dokumentasi: 'link dokumentasi menyusul',
+				},
+			};
+			return h.response(response).type('application/json');
 		},
 	},
-
 ];
 module.exports = routes;
 
-
-	// //POST
-	// {
-	// 	method: 'POST',
-	// 	path: '/',
-	// },
-	// //PUT
-	// {
-	// 	method: 'PUT',
-	// 	path: '/',
-	// },
-	// //DELETE
-	// {
-	// 	method: 'DELETE',
-	// 	path: '/',
-	// },
+// //POST
+// {
+// 	method: 'POST',
+// 	path: '/',
+// },
+// //PUT
+// {
+// 	method: 'PUT',
+// 	path: '/',
+// },
+// //DELETE
+// {
+// 	method: 'DELETE',
+// 	path: '/',
+// },
