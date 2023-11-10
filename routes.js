@@ -1,3 +1,14 @@
+//authentication handler
+const {
+
+} = require('./handler/authHandler');
+
+//data handler
+const {
+
+} = require('./handler/dataHandler');
+
+
 const routes = [
 	//GET
 	{
