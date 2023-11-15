@@ -24,7 +24,7 @@ const tambahUser = (request, h) => {
     }
     
     data.push(userBaru);
-    const berhasil = data.filter((b) => b.id === id).length > 0;
+    const berhasil = data.filter((u) => u.id === u.id).length > 0;
 
     
     if (berhasil) {
@@ -47,6 +47,30 @@ const tambahUser = (request, h) => {
     return response;
   };
 
+  const lihatUser = (request, h) => {
+    const { u_id } = request.params;
+  
+    const user = data.find((user) => user.u_id === u_id);
+  
+    if (user) {
+      const response = h.response({
+        status: 'success',
+        message: 'User berhasil ditemukan',
+        data: user,
+      });
+      response.code(200);
+      return response;
+    }
+  
+    const response = h.response({
+      status: 'fail',
+      message: 'User tidak ditemukan',
+    });
+    response.code(404);
+    return response;
+  };
+
   module.exports={
-    tambahUser
+    tambahUser,
+    lihatUser
   };
