@@ -4,8 +4,9 @@ const {
 } = require('./handler/authHandler');
 
 //data handler
-const {
-
+const { 
+	tambahUser,
+	lihatUser, 
 } = require('./handler/dataHandler');
 
 
@@ -27,6 +28,13 @@ const routes = [
 			return h.response(response).type('application/json');
 		},
 	},
+	//user
+	{
+		method: 'POST',
+		path: '/users',
+		handler: tambahUser,
+	},
+
 ];
 module.exports = routes;
 
