@@ -24,13 +24,15 @@ const tambahUser = (request, h) => {
     }
     
     data.push(userBaru);
-    const berhasil = data.filter((u) => u.id === u.id).length > 0;
+    const berhasil = data.filter((b) => b.id === id).length > 0;
+
     
     if (berhasil) {
       const response = h.response({
         status: 'success',
         message: 'User berhasil ditambahkan',
         data: {
+
           u_id: `${u_id}`,
         },
       });
