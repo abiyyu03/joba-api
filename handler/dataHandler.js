@@ -1,7 +1,6 @@
 const { nanoid } = require('nanoid');
 const data = require('../src/data');
 
-
 const tambahUser = (request, h) => {
     const u_id = nanoid(16);
     ///* tester */ const handlerPayload = payloadHandler();
@@ -11,7 +10,6 @@ const tambahUser = (request, h) => {
     // /* tester */console.log(request.payload);
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
-    let finished = false;
     //execute
     const userBaru = {
         u_id, fullname, email, pass, address, number_phone, image_profile, description, insertedAt, updatedAt, 
@@ -27,13 +25,15 @@ const tambahUser = (request, h) => {
     
     data.push(userBaru);
     const berhasil = data.filter((b) => b.id === id).length > 0;
+
     
     if (berhasil) {
       const response = h.response({
         status: 'success',
         message: 'User berhasil ditambahkan',
         data: {
-          u_id: `${id}`,
+
+          u_id: `${u_id}`,
         },
       });
       response.code(201);
@@ -45,4 +45,8 @@ const tambahUser = (request, h) => {
     });
     response.code(500);
     return response;
+  };
+
+  module.exports={
+    tambahUser
   };
