@@ -6,7 +6,8 @@ const {
 //data handler
 const { 
 	tambahUser,
-	lihatUser, 
+	addPost,
+	readAllPost,
 } = require('./handler/dataHandler');
 
 
@@ -33,6 +34,18 @@ const routes = [
 		method: 'POST',
 		path: '/users',
 		handler: tambahUser,
+	},
+
+	//Routes Postingan
+	{
+		method: 'GET',
+		path: '/posts',
+		handler:readAllPost,
+	},
+	{
+		method: 'POST',
+		path: '/posts',
+		handler:addPost,
 	},
 
 ];
