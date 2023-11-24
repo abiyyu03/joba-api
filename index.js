@@ -32,9 +32,9 @@ const init = async () => {
 		},
 	});
 
-	await server.register(require('@hapi/basic'));
-	server.auth.strategy('simple', 'basic', { authenticateUser });
-	server.auth.default('simple');
+	// await server.register(require('@hapi/basic'));
+	// server.auth.strategy('simple', 'basic', { authenticateUser });
+	// server.auth.default('simple');
 
 	server.route(routes);
 	await server.start();

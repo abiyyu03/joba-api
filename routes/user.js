@@ -1,4 +1,4 @@
-const { tambahUser, lihatUser } = require('./handler/dataHandler');
+const { tambahUser, lihatUser } = require('../handler/dataHandler');
 
 const user = [
 	{
