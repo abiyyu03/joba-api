@@ -1,3 +1,5 @@
+const { tambahUser, lihatUser } = require('./handler/dataHandler');
+
 const user = [
 	{
 		method: 'GET',

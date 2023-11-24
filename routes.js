@@ -2,7 +2,6 @@
 // const { authenticateUser } = require('./handler/authHandler');
 
 //data handler
-const { tambahUser, lihatUser } = require('./handler/dataHandler');
 
 const user = require('./routes/user');
 const auth = require('./routes/auth');
