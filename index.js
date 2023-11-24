@@ -1,8 +1,10 @@
 const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
 const path = require('path');
-const { Pool, Client } = require('pg');
+const { Client } = require('pg');
 require('dotenv').config();
+
+const { authenticateUser } = require('./handler/authHandler');
 
 const init = async () => {
 	//database configuration
@@ -29,6 +31,10 @@ const init = async () => {
 			},
 		},
 	});
+
+	await server.register(require('@hapi/basic'));
+	server.auth.strategy('simple', 'basic', { authenticateUser });
+	server.auth.default('simple');
 
 	server.route(routes);
 	await server.start();
