@@ -1,21 +1,11 @@
 const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
-const path = require('path');
-const { Client } = require('pg');
+const client = require('./config/database');
 require('dotenv').config();
 
 const { authenticateUser } = require('./handler/authHandler');
 
 const init = async () => {
-	//database configuration
-	const client = new Client({
-		user: process.env.DB_USER,
-		host: process.env.DB_HOST,
-		database: process.env.DB_DATABASE,
-		password: process.env.DB_PASSWORD,
-		port: process.env.DB_PORT,
-	});
-
 	//connect to the database
 	client.connect(function (err, res) {
 		if (err) throw err;
