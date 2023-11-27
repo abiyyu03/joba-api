@@ -7,6 +7,7 @@ const user = require('./routes/userRoute');
 const auth = require('./routes/authRoute');
 const bookmark = require('./routes/bookmarkRoute');
 const tag = require('./routes/tagRoute');
+const tipePekerjaan = require('./routes/tipePekerjaanRoute');
 
 let route = [
 	//GET
@@ -30,6 +31,5 @@ let route = [
 		},
 	},
 ];
-routes = route.concat(user).concat(bookmark).concat(tag);
-// console.log(routes);
+routes = route.concat(user).concat(bookmark).concat(tag).concat(tipePekerjaan);
 module.exports = routes;
