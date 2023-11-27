@@ -3,9 +3,10 @@
 
 //data handler
 
-const user = require('./routes/user');
-const auth = require('./routes/auth');
-const bookmark = require('./routes/bookmark');
+const user = require('./routes/userRoute');
+const auth = require('./routes/authRoute');
+const bookmark = require('./routes/bookmarkRoute');
+const tag = require('./routes/tagRoute');
 
 let route = [
 	//GET
@@ -29,6 +30,6 @@ let route = [
 		},
 	},
 ];
-routes = route.concat(user).concat(bookmark);
+routes = route.concat(user).concat(bookmark).concat(tag);
 // console.log(routes);
 module.exports = routes;
