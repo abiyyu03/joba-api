@@ -17,6 +17,7 @@ let route = [
 		// options: {
 		// 	auth: 'simple',
 		// },
+		config: { auth: 'jwt' },
 		handler: function (request, h) {
 			const response = {
 				status: 'success',
@@ -31,5 +32,5 @@ let route = [
 		},
 	},
 ];
-routes = route.concat(user).concat(bookmark).concat(tag).concat(tipePekerjaan);
+routes = route.concat(user).concat(bookmark).concat(tag).concat(tipePekerjaan).concat(auth);
 module.exports = routes;

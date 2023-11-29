@@ -1,9 +1,8 @@
 const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
 const client = require('./config/database');
+const Jwt = require('hapi-auth-jwt2');
 require('dotenv').config();
-
-const { authenticateUser } = require('./handler/authHandler');
 
 const init = async () => {
 	//connect to the database
@@ -22,9 +21,15 @@ const init = async () => {
 		},
 	});
 
-	// await server.register(require('@hapi/basic'));
-	// server.auth.strategy('simple', 'basic', { authenticateUser });
-	// server.auth.default('simple');
+	await server.register(Jwt);
+	server.auth.strategy('jwt', 'jwt', {
+		key: process.env.PRIVATE_KEY_JWT,
+		validate: () => ({ isValid: true }),
+		verifyOptions: {
+			algorithm: ['HS256'],
+		},
+	});
+	server.auth.default('jwt');
 
 	server.route(routes);
 	await server.start();

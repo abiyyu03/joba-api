@@ -1,59 +1,37 @@
 const { nanoid } = require('nanoid');
 const data = require('../src/user');
-// const jwt = require('jsonwebtoken');
-// const users = [{ username: 'abiyyu', password: 'abiyyu' }];
+const client = require('../config/database');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const errorResponse = require('../constant/responseMessage');
+require('dotenv').config();
 
-const Bcrypt = require('bcrypt');
-const Hapi = require('@hapi/hapi');
+const authenticateUser = async (request, h) => {
+	const { email, password } = request.payload;
 
-const users = {
-	john: {
-		username: 'john',
-		password: '$2a$10$iqJSHD.BGr0E2IxQwYgJmeP3NvhPrXAeLSaGCj6IR/XU5QtjVu5Tm', // 'secret'
-		name: 'John Doe',
-		id: '2133d32a',
-	},
-};
+	try {
+		const user = await client.query(`select * from users where email = $1 `, [email]); // where email = $1 and pass = $2 ', [email, password]
+		// setTimeout(() => {
+		const isAuthenticated = await bcrypt.compare(password, user.rows[0].pass);
+		// }, 3000);
+		if (isAuthenticated) {
+			const tokenPayload = {
+				email: user.rows[0].email,
+			};
+			const accessToken = jwt.sign(tokenPayload, process.env.PRIVATE_KEY_JWT, {
+				expiresIn: '2h',
+				algorithm: 'HS256',
+			});
 
-const authenticateUser = async (request, username, password) => {
-	const user = users[username];
-	if (!user) {
-		return { code: 401, credentials: null, isValid: false };
+			return h.response({
+				status: 'Success',
+				message: 'Login Successfully !',
+				data: accessToken,
+			});
+		}
+	} catch (error) {
+		return h.response(errorResponse(error.message));
 	}
-
-	const isValid = await Bcrypt.compare(password, user.password);
-	const credentials = { id: user.id, name: user.name };
-
-	return { isValid, credentials };
-
-	// try {
-	// 	const user = users[username];
-	// 	if (!user) {
-	// 		return { credentials: null, isValid: false };
-	// 	}
-
-	// 	const isValid = await Bcrypt.compare(password, user.password);
-	// 	const credentials = { id: user.id, name: user.name };
-
-	// 	return { isValid, credentials };
-	// } catch (error) {
-	// 	return 'Invalid credentials';
-	// }
 };
 
-// const login = (req, res) => {
-// 	//jwt
-// 	// const { username, password } = user;
-// 	// const user = users.find((u) => u.username === username && u.password === password);
-// 	// const secretKey = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
-// 	//     eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
-// 	//     SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`;
-// 	// if (user) {
-// 	// 	const token = jwt.sign({ id: user.id, username: user.username, password: user.password }, secretKey);
-// 	// 	return res.header('Authorization', `Bearer ${token}`);
-// 	// } else {
-// 	// 	return res.response('Invalid Credentials!').code(401);
-// 	// }
-// };
-
-module.export = { authenticateUser };
+module.exports = authenticateUser;
