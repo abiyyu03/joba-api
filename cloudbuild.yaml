@@ -1,0 +1,4 @@
+steps:
+- name: "install node modules"
+  args: ["npm", "install"]
+timeout: "1600s"
