@@ -1,4 +1,4 @@
-const  { getAll, updateData, deleteData } = require('../handler/userHandler');
+const { getAll, updateData, deleteData } = require('../handler/userHandler');
 
 const user = [
 	{
@@ -8,12 +8,12 @@ const user = [
 	},
 	{
 		method: 'PUT',
-		path: '/users/:id',
+		path: '/users/{id}',
 		handler: updateData,
 	},
 	{
 		method: 'DELETE',
-		path: '/users/:id',
+		path: '/users/{id}',
 		handler: deleteData,
 	},
 ];
