@@ -1,21 +1,24 @@
 //authentication handler
-const {
-
-} = require('./handler/authHandler');
+// const { authenticateUser } = require('./handler/authHandler');
 
 //data handler
-const { 
-	tambahUser,
-	addPost,
-	readAllPost,
-} = require('./handler/dataHandler');
 
+const user = require('./routes/userRoute');
+const auth = require('./routes/authRoute');
+const bookmark = require('./routes/bookmarkRoute');
+const tag = require('./routes/tagRoute');
+const tipePekerjaan = require('./routes/tipePekerjaanRoute');
+const post = require('./routes/postRoute');
 
-const routes = [
+let route = [
 	//GET
 	{
 		method: 'GET',
 		path: '/',
+		// options: {
+		// 	auth: 'simple',
+		// },
+		config: { auth: 'jwt' },
 		handler: function (request, h) {
 			const response = {
 				status: 'success',
@@ -29,40 +32,6 @@ const routes = [
 			return h.response(response).type('application/json');
 		},
 	},
-	//user
-	{
-		method: 'POST',
-		path: '/users',
-		handler: tambahUser,
-	},
-
-	//Routes Postingan
-	{
-		method: 'GET',
-		path: '/posts',
-		handler:readAllPost,
-	},
-	{
-		method: 'POST',
-		path: '/posts',
-		handler:addPost,
-	},
-
 ];
+routes = route.concat(user).concat(bookmark).concat(tag).concat(tipePekerjaan).concat(auth).concat(post);
 module.exports = routes;
-
-// //POST
-// {
-// 	method: 'POST',
-// 	path: '/',
-// },
-// //PUT
-// {
-// 	method: 'PUT',
-// 	path: '/',
-// },
-// //DELETE
-// {
-// 	method: 'DELETE',
-// 	path: '/',
-// },
