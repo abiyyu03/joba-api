@@ -1,15 +1,20 @@
-const { tambahUser, lihatUser } = require('../handler/dataHandler');
+const  { getAll, updateData, deleteData } = require('../handler/userHandler');
 
 const user = [
 	{
 		method: 'GET',
-		path: '/users/{u_id}',
-		handler: lihatUser,
+		path: '/users',
+		handler: getAll,
 	},
 	{
-		method: 'POST',
-		path: '/users',
-		handler: tambahUser,
+		method: 'PUT',
+		path: '/users/:id',
+		handler: updateData,
+	},
+	{
+		method: 'DELETE',
+		path: '/users/:id',
+		handler: deleteData,
 	},
 ];
 
