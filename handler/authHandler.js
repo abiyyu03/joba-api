@@ -1,5 +1,4 @@
 const { nanoid } = require('nanoid');
-const data = require('../src/user');
 const client = require('../config/database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
