@@ -18,7 +18,7 @@ const authenticateUser = async (request, h) => {
 				email: user.rows[0].email,
 			};
 			const accessToken = jwt.sign(tokenPayload, process.env.PRIVATE_KEY_JWT, {
-				expiresIn: '2h',
+				expiresIn: '10h',
 				algorithm: 'HS256',
 			});
 

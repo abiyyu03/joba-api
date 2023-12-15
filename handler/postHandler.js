@@ -1,7 +1,7 @@
 /**
  * Quick Note :
  * - Where post handler get data? there is on posts table
- * - 
+ * -
  */
 
 const client = require('../config/database');
@@ -41,16 +41,7 @@ const createData = async (request, h) => {
                 created_at,
                 updated_at,
                 location) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-			[
-                title,
-                tag_id,
-                body,
-                user_id,
-                slug,
-                created_At,
-                updated_At,
-                locations
-            ],
+			[title, tag_id, body, user_id, slug, created_At, updated_At, locations],
 		);
 
 		return h
@@ -73,10 +64,11 @@ const updateData = async (request, h) => {
 		const updatedAt = new Date();
 
 		//update data
-		const update = await client.query(
-			`UPDATE posts SET tipe=$1, updated_at=$2 WHERE id_tipe = $3 RETURNING *`,
-			[tipe, updatedAt, id],
-		);
+		const update = await client.query(`UPDATE posts SET tipe=$1, updated_at=$2 WHERE id = $3 RETURNING *`, [
+			tipe,
+			updatedAt,
+			id,
+		]);
 
 		if (update.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 
@@ -97,7 +89,7 @@ const deleteData = async (request, h) => {
 		const { id } = request.params;
 
 		//delete data
-		const deleted = await client.query(`DELETE FROM posts WHERE id_tipe = $1 RETURNING *`, [id]);
+		const deleted = await client.query(`DELETE FROM posts WHERE id = $1 RETURNING *`, [id]);
 
 		if (deleted.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 
@@ -118,7 +110,7 @@ const getById = async (request, h) => {
 		const { id } = request.params;
 
 		//delete data
-		const dataById = await client.query(`SELECT * FROM posts WHERE id_tipe = $1`, [id]);
+		const dataById = await client.query(`SELECT * FROM posts WHERE id = $1`, [id]);
 
 		if (dataById.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 
