@@ -3,10 +3,17 @@
  * - user click bookmark button call createData handler
  */
 const client = require('../config/database');
+const errorResponse = require('../constant/responseMessage');
 
 const getAll = async (request, h) => {
 	try {
-		const all = await client.query(`SELECT * FROM bookmarks`);
+		const { userId } = request.params;
+		const all = await client.query(
+			`SELECT * FROM bookmarks 
+            LEFT JOIN posts ON bookmarks.post_id = posts.id 
+            LEFT JOIN users ON bookmarks.user_id = users.u_id WHERE bookmarks.user_id = $1`,
+			[userId],
+		);
 		return h
 			.response({
 				status: 'Success',
@@ -54,7 +61,7 @@ const updateData = async (request, h) => {
 
 		//update data
 		const update = await client.query(
-			`UPDATE bookmarks SET post_id=$1, user_id=$2, updated_at=$3 WHERE id = $4 RETURNING *`,
+			`UPDATE bookmarks SET post_id=$1, user_id=$2, updated_at=$3 WHERE id_bookmark = $4 RETURNING *`,
 			[postId, userId, updatedAt, id],
 		);
 
@@ -77,7 +84,7 @@ const deleteData = async (request, h) => {
 		const { id } = request.params;
 
 		//delete data
-		const deleted = await client.query(`DELETE FROM bookmarks WHERE id = $1 RETURNING *`, [id]);
+		const deleted = await client.query(`DELETE FROM bookmarks WHERE id_bookmark = $1 RETURNING *`, [id]);
 
 		if (deleted.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 
@@ -98,7 +105,7 @@ const getById = async (request, h) => {
 		const { id } = request.params;
 
 		//delete data
-		const dataById = await client.query(`SELECT * FROM bookmarks WHERE id = $1`, [id]);
+		const dataById = await client.query(`SELECT * FROM bookmarks WHERE id_bookmark = $1`, [id]);
 
 		if (dataById.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 

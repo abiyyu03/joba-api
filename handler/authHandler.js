@@ -15,17 +15,22 @@ const authenticateUser = async (request, h) => {
 		// }, 3000);
 		if (isAuthenticated) {
 			const tokenPayload = {
+				id_user: user.rows[0].u_id,
+				fullname: user.rows[0].fullname,
 				email: user.rows[0].email,
+				address: user.rows[0].address,
+				number_phone: user.rows[0].number_phone,
+				description: user.rows[0].description,
 			};
 			const accessToken = jwt.sign(tokenPayload, process.env.PRIVATE_KEY_JWT, {
-				expiresIn: '10h',
+				expiresIn: '6h',
 				algorithm: 'HS256',
 			});
 
 			return h.response({
 				status: 'Success',
 				message: 'Login Successfully !',
-				data: accessToken,
+				userData: { tokenPayload, accessToken },
 			});
 		}
 	} catch (error) {

@@ -3,7 +3,7 @@ const { searchPost } = require('../handler/searchHandler');
 const search = [
 	{
 		method: 'GET',
-		path: '/search/{keyword}',
+		path: '/search',
 		config: { auth: false },
 		handler: searchPost,
 	},

@@ -3,9 +3,9 @@ const client = require('../config/database');
 
 const searchPost = async (request, h) => {
 	try {
-		const { keyword } = request.params;
+		const { q } = request.query;
 
-		const all = await client.query(`SELECT * FROM posts WHERE title LIKE '%${keyword}%'`);
+		const all = await client.query(`SELECT * FROM posts WHERE LOWER(title) LIKE LOWER('%${q}%')`);
 		return h
 			.response({
 				status: 'Success',

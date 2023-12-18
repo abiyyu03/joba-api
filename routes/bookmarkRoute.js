@@ -3,7 +3,7 @@ const { getAll, createData, updateData, deleteData, getById } = require('../hand
 const bookmark = [
 	{
 		method: 'GET',
-		path: '/bookmarks',
+		path: '/bookmarks/{userId}',
 		handler: getAll,
 	},
 	{
@@ -21,11 +21,11 @@ const bookmark = [
 		path: '/bookmarks/{id}',
 		handler: deleteData,
 	},
-	{
-		method: 'GET',
-		path: '/bookmarks/{id}',
-		handler: getById,
-	},
+	// {
+	// 	method: 'GET',
+	// 	path: '/bookmarks/{id}',
+	// 	handler: getById,
+	// },
 ];
 
 module.exports = bookmark;
