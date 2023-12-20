@@ -1,19 +1,9 @@
-/**
- * Quick Note :
- * - Where post handler get data? there is on posts table
- * -
- */
-
-const { nanoid } = require('nanoid');
 const client = require('../config/database');
 const errorResponse = require('../constant/responseMessage');
 
 const getAll = async (request, h) => {
 	try {
-		const all = await client.query(`SELECT * FROM posts 
-            LEFT JOIN users ON posts.user_id = users.u_id
-            LEFT JOIN tags ON posts.tag_id = tags.id_tag
-            LEFT JOIN skills ON posts.tag_id = skills.id_skill`);
+		const all = await client.query(`SELECT * FROM skills`);
 		return h
 			.response({
 				status: 'Success',
@@ -29,28 +19,10 @@ const getAll = async (request, h) => {
 
 const createData = async (request, h) => {
 	try {
-		const { title, tag_id, body, user_id, slug, location, contact, skill_id } = request.payload;
-
-		const id = nanoid(8);
-		const created_At = new Date();
-		const updated_At = created_At;
+		const { skill_name } = request.payload;
 
 		//create data
-		const create = await client.query(
-			`INSERT INTO posts (
-                id,
-                title,
-                tag_id,
-                body,
-                user_id,
-                slug,
-                created_at,
-                updated_at,
-                location, 
-                contact, 
-                skill_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
-			[id, title, tag_id, body, user_id, slug, created_At, updated_At, location, contact, skill_id],
-		);
+		const create = await client.query(`INSERT INTO skills (skill_name) VALUES($1 ) RETURNING *`, [skill_name]);
 
 		return h
 			.response({
@@ -66,16 +38,16 @@ const createData = async (request, h) => {
 
 const updateData = async (request, h) => {
 	try {
-		const { title, tag_id, body, user_id, slug, location, contact, skill_id } = request.payload;
+		const { skill_name } = request.payload;
 		const { id } = request.params;
 
 		const updatedAt = new Date();
 
 		//update data
-		const update = await client.query(
-			`UPDATE posts SET title=$1, tag_id=$2, body=$3, user_id=$4, slug=$4, location=$5, skill_id=$6 contact=$7, updated_at=$8 WHERE id = $9 RETURNING *`,
-			[title, tag_id, body, user_id, location, contact, skill_id, updatedAt, id],
-		);
+		const update = await client.query(`UPDATE skills SET skill_name=$1 WHERE id_skill = $2 RETURNING *`, [
+			skill_name,
+			id,
+		]);
 
 		if (update.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 
@@ -96,7 +68,7 @@ const deleteData = async (request, h) => {
 		const { id } = request.params;
 
 		//delete data
-		const deleted = await client.query(`DELETE FROM posts WHERE id = $1 RETURNING *`, [id]);
+		const deleted = await client.query(`DELETE FROM skills WHERE id_skill = $1 RETURNING *`, [id]);
 
 		if (deleted.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 
@@ -117,12 +89,7 @@ const getById = async (request, h) => {
 		const { id } = request.params;
 
 		//delete data
-		const dataById = await client.query(
-			`SELECT * FROM posts 
-            LEFT JOIN skills ON posts.tag_id = skills.id_skill
-            WHERE id = $1`,
-			[id],
-		);
+		const dataById = await client.query(`SELECT * FROM skills WHERE id_skill = $1`, [id]);
 
 		if (dataById.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
 

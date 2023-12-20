@@ -10,6 +10,7 @@ const tag = require('./routes/tagRoute');
 const tipePekerjaan = require('./routes/tipePekerjaanRoute');
 const post = require('./routes/postRoute');
 const searchPost = require('./routes/searchRoute');
+const skill = require('./routes/skillRoute');
 
 let route = [
 	//GET
@@ -41,5 +42,6 @@ routes = route
 	.concat(tipePekerjaan)
 	.concat(auth)
 	.concat(searchPost)
-	.concat(post);
+	.concat(post)
+	.concat(skill);
 module.exports = routes;
