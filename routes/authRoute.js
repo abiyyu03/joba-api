@@ -11,6 +11,7 @@ const auth = [
 	{
 		method: 'POST',
 		path: '/register',
+		config: { auth: false },
 		handler: registerUser,
 	},
 ];

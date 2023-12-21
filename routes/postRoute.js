@@ -1,4 +1,4 @@
-const { getAll, createData, updateData, deleteData, getById } = require('../handler/postHandler');
+const { getAll, createData, updateData, deleteData, getById, getByUserId } = require('../handler/postHandler');
 
 const post = [
 	{
@@ -25,6 +25,11 @@ const post = [
 		method: 'GET',
 		path: '/post/{id}',
 		handler: getById,
+	},
+	{
+		method: 'GET',
+		path: '/post/user/{idUser}',
+		handler: getByUserId,
 	},
 ];
 

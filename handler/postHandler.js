@@ -73,8 +73,8 @@ const updateData = async (request, h) => {
 
 		//update data
 		const update = await client.query(
-			`UPDATE posts SET title=$1, tag_id=$2, body=$3, user_id=$4, slug=$4, location=$5, skill_id=$6 contact=$7, updated_at=$8 WHERE id = $9 RETURNING *`,
-			[title, tag_id, body, user_id, location, contact, skill_id, updatedAt, id],
+			`UPDATE posts SET title=$1, tag_id=$2, body=$3, user_id=$4, slug=$4, location=$5, skill_id=$6 contact=$7, updated_at=$8, is_active=$9 WHERE id = $9 RETURNING *`,
+			[title, tag_id, body, user_id, location, contact, skill_id, updatedAt, is_active, id],
 		);
 
 		if (update.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
@@ -138,4 +138,31 @@ const getById = async (request, h) => {
 	}
 };
 
-module.exports = { getAll, createData, updateData, deleteData, getById };
+const getByUserId = async (request, h) => {
+	try {
+		const { idUser } = request.params;
+
+		//delete data
+		const dataByUserId = await client.query(
+			`SELECT * FROM posts 
+            LEFT JOIN skills ON posts.tag_id = skills.id_skill
+            WHERE posts.user_id = $1`,
+			[idUser],
+		);
+
+		if (dataByUserId.rowCount <= 0) throw new Error(`Data dengan id user ${idUser} tidak tersedia`);
+
+		return h
+			.response({
+				status: 'Success',
+				message: `Data fetched successfully`,
+				total: dataByUserId.rows.length,
+				data: dataByUserId.rows,
+			})
+			.code(200);
+	} catch (error) {
+		return h.response(errorResponse(error.message));
+	}
+};
+
+module.exports = { getAll, createData, updateData, deleteData, getById, getByUserId };
