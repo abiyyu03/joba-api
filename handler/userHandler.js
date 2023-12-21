@@ -58,5 +58,25 @@ const deleteData = async (request, h) => {
 		return h.response(errorResponse(error.message));
 	}
 };
+const getById = async (request, h) => {
+	try {
+		const { id } = request.params;
 
-module.exports = { getAll, updateData, deleteData };
+		//delete data
+		const dataById = await client.query(`SELECT * FROM users WHERE u_id = $1`, [id]);
+
+		if (dataById.rowCount <= 0) throw new Error(`Data dengan id ${id} tidak tersedia`);
+
+		return h
+			.response({
+				status: 'Success',
+				message: `Data fetched successfully`,
+				data: dataById.rows[0],
+			})
+			.code(200);
+	} catch (error) {
+		return h.response(errorResponse(error.message));
+	}
+};
+
+module.exports = { getAll, updateData, deleteData, getById };
