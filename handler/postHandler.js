@@ -145,7 +145,8 @@ const getByUserId = async (request, h) => {
 		//delete data
 		const dataByUserId = await client.query(
 			`SELECT * FROM posts 
-            LEFT JOIN skills ON posts.tag_id = skills.id_skill
+            LEFT JOIN skills ON posts.skill_id = skills.id_skill
+            LEFT JOIN tags ON posts.tag_id = tags.id_tag
             WHERE posts.user_id = $1`,
 			[idUser],
 		);
