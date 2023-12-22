@@ -18,17 +18,17 @@ const getAll = async (request, h) => {
 
 // Fungsi untuk memperbarui data
 const updateData = async (request, h) => {
-	const { fullname, email, password } = request.payload;
+	const { fullname, email, address, number_phone } = request.payload;
 	const { id } = request.params;
 
 	try {
 		// Enkripsi password baru
-		const hashedPassword = await bcrypt.hash(password, 10);
+		// const hashedPassword = await bcrypt.hash(password, 10);
 
 		// Perbarui data pengguna di database
 		const result = await client.query(
-			'UPDATE users SET fullname = $1, email = $2, pass = $3 WHERE u_id = $4 RETURNING *',
-			[fullname, email, hashedPassword, id],
+			'UPDATE users SET fullname = $1, email = $2, address = $3, number_phone=$4 WHERE u_id = $5 RETURNING *',
+			[fullname, email, address, number_phone, id],
 		);
 
 		return h.response({
